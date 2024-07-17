@@ -20,27 +20,22 @@ export const createTableTasksQuery = async (): Promise<void> => {
 	`;
 	await db.query(q);
 	db.release();
-}
+};
 
 export const getTasksQuery = async (): Promise<Task[]> => {
 	const db = await connectToMySQLPool.getConnection();
-	const q = 'SELECT * FROM Tasks';
+	const q = 'SELECT * FROM Tasks ORDER BY created_at DESC';
 	const [rows] = await db.query(q);
 	revalidatePath('/');
 	db.release();
 	return rows as Task[];
 };
 
-
-export const createNewTaskQuery = async (task: Pick<Task, 'uuid' & 'title'>): Promise<void> => {
-	const newTask = {
-		...task,
-		is_completed: false,
-		created_at: new Date().toISOString(),
-	}
+export const createNewTaskQuery = async (task: Pick<Task, 'uuid' | 'title'>): Promise<void> => {
 	const db = await connectToMySQLPool.getConnection();
-	const q = 'INSERT INTO Tasks SET ?';
-	await db.query(q, newTask);
-	revalidatePath('/');
+	const q = 'INSERT INTO Tasks (uuid, title) VALUES (?, ?)';
+	await db.query(q, [task.uuid, task.title]);
+
 	db.release();
-}
+	revalidatePath('/');
+};

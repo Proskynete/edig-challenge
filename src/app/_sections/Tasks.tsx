@@ -16,13 +16,18 @@ export default function TaskList() {
 
 	return (
 		<section className="w-full flex flex-col gap-4">
-			{isLoading && <TasksPlaceholder />}
+			<h2 className="font-bold">Tareas pendientes</h2>
+
+			{isLoading && [...Array(3)].map((_, index) => <TasksPlaceholder key={index} />)}
 			{isError && <p>Ha ocurrido un error.</p>}
 
 			{!isLoading && !isError && (
 				<>
-					<h2 className="font-bold">Tareas pendientes</h2>
-					{!data?.length ? <p>No hay tareas.</p> : data.map((task) => <Task key={task.id} task={task} />)}
+					{!data?.length ? (
+						<p>No tienes tareas pendientes.</p>
+					) : (
+						data.map((task) => <Task key={task.uuid} task={task} />)
+					)}
 				</>
 			)}
 		</section>

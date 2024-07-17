@@ -7,10 +7,11 @@ export const getAll = async () => {
 	return getTasksQuery();
 };
 
-export const createNewTask = async (task: Pick<Task, 'title'>) => {
-	return createNewTaskQuery({ uuid: uuidv4(), ...task });
+export const useNewTask = async ({ title }: Pick<Task, 'title'>) => {
+	return createNewTaskQuery({ uuid: uuidv4(), title });
 };
 
 export const TaskServices = {
 	getAll,
+	createNewTask: useNewTask,
 };
