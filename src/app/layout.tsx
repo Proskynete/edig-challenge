@@ -1,8 +1,9 @@
-import '../assets/globals.css';
+import '@/assets/globals.css';
 
 import type { Metadata } from 'next';
 
 import { Nunito } from '@/assets/fonts';
+import { ReactQueryProvider } from '@/lib/react-query';
 
 export const metadata: Metadata = {
 	title: 'Edig | TodoApp Challenge',
@@ -13,7 +14,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang="es">
 			<body className={`${Nunito.className} antialiased h-screen w-screen bg-slate-200 text-slate-900 box-border`}>
-				{children}
+				<ReactQueryProvider>{children}</ReactQueryProvider>
 			</body>
 		</html>
 	);

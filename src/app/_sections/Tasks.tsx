@@ -1,0 +1,30 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+
+import { Task } from '@/components/Task';
+import { TaskServices } from '@/services/task.service';
+import { TASKS } from '@/utils/constants';
+
+import TasksPlaceholder from '../_placeholders/tasks.placeholder';
+
+export default function TaskList() {
+	const { data, isLoading, isError } = useQuery({
+		queryFn: TaskServices.getAll,
+		queryKey: [TASKS.GET_ALL],
+	});
+
+	return (
+		<section className="w-full flex flex-col gap-4">
+			{isLoading && <TasksPlaceholder />}
+			{isError && <p>Ha ocurrido un error.</p>}
+
+			{!isLoading && !isError && (
+				<>
+					<h2 className="font-bold">Tareas pendientes</h2>
+					{!data?.length ? <p>No hay tareas.</p> : data.map((task) => <Task key={task.id} task={task} />)}
+				</>
+			)}
+		</section>
+	);
+}

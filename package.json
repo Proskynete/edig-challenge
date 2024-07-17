@@ -11,6 +11,7 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
+		"@tanstack/react-query": "^5.51.5",
 		"mysql2": "^3.10.3",
 		"next": "14.2.5",
 		"react": "^18",
