@@ -1,9 +1,9 @@
-import './globals.css';
+import '../assets/globals.css';
 
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-	title: 'Edig challenge',
+	title: 'Edig | TodoApp Challenge',
 };
 
 interface RootLayoutProps extends Readonly<{ children: React.ReactNode }> {}
