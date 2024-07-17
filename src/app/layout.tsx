@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 interface RootLayoutProps extends Readonly<{ children: React.ReactNode }> {}
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang="es">
 			<body className={`${Nunito.className} antialiased h-screen w-screen bg-slate-200 text-slate-900 box-border`}>
