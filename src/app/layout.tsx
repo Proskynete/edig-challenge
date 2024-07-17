@@ -12,7 +12,9 @@ interface RootLayoutProps extends Readonly<{ children: React.ReactNode }> {}
 export default function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang="es">
-			<body className={`${Nunito.className} antialiased h-screen w-screen bg-slate-800 text-white`}>{children}</body>
+			<body className={`${Nunito.className} antialiased h-screen w-screen bg-slate-200 text-slate-900 box-border`}>
+				{children}
+			</body>
 		</html>
 	);
 }
