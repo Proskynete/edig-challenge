@@ -3,16 +3,12 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { Task } from '@/components/Task';
-import { TaskServices } from '@/services/task.service';
-import { TASKS } from '@/utils/constants';
+import { useGetTaskList } from '@/hooks/useGetTaskList';
 
 import TasksPlaceholder from '../_placeholders/tasks.placeholder';
 
 export default function TaskList() {
-	const { data, isLoading, isError } = useQuery({
-		queryFn: TaskServices.getAll,
-		queryKey: [TASKS.GET_ALL],
-	});
+	const { data, isLoading, isError } = useGetTaskList();
 
 	return (
 		<section className="w-full flex flex-col gap-4">
