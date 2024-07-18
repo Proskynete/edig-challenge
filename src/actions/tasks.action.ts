@@ -45,7 +45,7 @@ export const createNewTaskQuery = async (task: Pick<Task, 'uuid' | 'title'>): Pr
 
 export const editTaskQuery = async (task: Pick<Task, 'uuid' | 'is_completed'>): Promise<void> => {
 	const db = await connectToMySQLPool.getConnection();
-	const q = 'UPDATE Tasks SET is_completed = ? WHERE uuid = ?';
+	const q = 'UPDATE Tasks SET is_completed = ?, updated_at = CURRENT_TIMESTAMP WHERE uuid = ?';
 	await db.query(q, [task.is_completed, task.uuid]);
 
 	db.release();
@@ -54,8 +54,8 @@ export const editTaskQuery = async (task: Pick<Task, 'uuid' | 'is_completed'>): 
 
 export const deleteTaskQuery = async (uuid: string): Promise<void> => {
 	const db = await connectToMySQLPool.getConnection();
-	const q = 'UPDATE FROM Tasks SET is_hidden = ?, deleted_at = ? WHERE uuid = ?';
-	await db.query(q, [true, uuid]);
+	const q = 'UPDATE Tasks SET is_hidden = TRUE, deleted_at = CURRENT_TIMESTAMP WHERE uuid = ?';
+	await db.query(q, [uuid]);
 
 	db.release();
 	revalidatePath('/');
