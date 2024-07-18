@@ -11,22 +11,25 @@ export const createTableTasksQuery = async (): Promise<void> => {
 		CREATE TABLE Tasks (
 			uuid CHAR(36) NOT NULL,
 			title VARCHAR(255) NOT NULL,
-			is_completed BOOLEAN NOT NULL DEFAULT false,
+			is_completed BOOL NOT NULL DEFAULT FALSE,
+			is_hidden BOOL NOT NULL DEFAULT FALSE,
 			created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP NULL DEFAULT NULL,
 			deleted_at TIMESTAMP NULL DEFAULT NULL,
 			PRIMARY KEY (uuid)
 		);
 	`;
+
 	await db.query(q);
 	db.release();
 };
 
 export const getTasksQuery = async (): Promise<Task[]> => {
 	const db = await connectToMySQLPool.getConnection();
-	const q = 'SELECT * FROM Tasks ORDER BY created_at DESC';
+	const q = 'SELECT * FROM Tasks WHERE is_hidden = FALSE ORDER BY created_at DESC';
 	const [rows] = await db.query(q);
 	revalidatePath('/');
+
 	db.release();
 	return rows as Task[];
 };
@@ -35,6 +38,24 @@ export const createNewTaskQuery = async (task: Pick<Task, 'uuid' | 'title'>): Pr
 	const db = await connectToMySQLPool.getConnection();
 	const q = 'INSERT INTO Tasks (uuid, title) VALUES (?, ?)';
 	await db.query(q, [task.uuid, task.title]);
+
+	db.release();
+	revalidatePath('/');
+};
+
+export const editTaskQuery = async (task: Pick<Task, 'uuid' | 'is_completed'>): Promise<void> => {
+	const db = await connectToMySQLPool.getConnection();
+	const q = 'UPDATE Tasks SET is_completed = ? WHERE uuid = ?';
+	await db.query(q, [task.is_completed, task.uuid]);
+
+	db.release();
+	revalidatePath('/');
+};
+
+export const deleteTaskQuery = async (uuid: string): Promise<void> => {
+	const db = await connectToMySQLPool.getConnection();
+	const q = 'UPDATE FROM Tasks SET is_hidden = ?, deleted_at = ? WHERE uuid = ?';
+	await db.query(q, [true, uuid]);
 
 	db.release();
 	revalidatePath('/');
