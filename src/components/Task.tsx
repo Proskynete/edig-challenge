@@ -76,7 +76,8 @@ export const Task = ({ task }: TaskProps) => {
 						{task.title}
 					</h1>
 					<time className="text-xs text-gray-500 mt-1 leading-4" dateTime={task.created_at.toISOString()}>
-						Creado el {task.created_at.toLocaleDateString()} a las {task.created_at.toLocaleTimeString()}
+						Creado el {task.created_at.toLocaleDateString()} a las{' '}
+						{task.created_at.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}
 					</time>
 				</div>
 			</div>

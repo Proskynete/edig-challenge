@@ -42,7 +42,7 @@ export default function CreateNewTask() {
 	};
 
 	return (
-		<section className="w-full flex items-end justify-center gap-2">
+		<section className="w-full flex flex-col lg:flex-row items-end justify-center gap-2">
 			<Input
 				id="new-task"
 				name="new-task"
@@ -53,7 +53,7 @@ export default function CreateNewTask() {
 				onChange={handleChangeTask}
 				disabled={isPending}
 			/>
-			<Button onClick={handleAddTask} disabled={!task || isPending} className="mb-[2px]">
+			<Button onClick={handleAddTask} disabled={!task || isPending} className="mb-[2px] w-full lg:w-fit">
 				Agregar
 			</Button>
 		</section>
