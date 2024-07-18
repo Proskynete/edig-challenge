@@ -2,7 +2,7 @@ import Footer from '@/app/_sections/Footer';
 import Header from '@/app/_sections/Header';
 
 import CreateNewTask from './_sections/CreateNewTask';
-import TaskList from './_sections/Tasks';
+import TaskList from './_sections/TaskList';
 
 export default function Home() {
 	return (
